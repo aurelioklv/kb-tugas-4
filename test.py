@@ -26,24 +26,53 @@ def get_heuristic(filename = 'heuristics.txt'):
             heuristics[node_heuristic[0]] = int(node_heuristic[1])
     return heuristics
 
-G = nx.Graph()
+def get_goal_from_heuristic(heuristic: dict):
+    for node, cost in heuristic.items():
+        if cost == 0:
+            return node
 
-graph_add_node(G, "cities.txt")
-graph_add_edge(G, "edges.txt")
+def gbfs(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
+    h = heuristics
+    path = []
+    visited = {}
+    for node in Graph.nodes():
+        visited[node] = False
 
-node_list = G.nodes()
-print("Node:", node_list)
+    pq = PriorityQueue()
+    pq.put((0, start_node))
+    visited[start_node] = True
 
-n = G.number_of_nodes()
-print("Number of nodes:", n)
+    while not pq.empty():
+        u = pq.get()[1]
+        path.append(u)
 
-m = G.number_of_edges()
-print("Number of edges:", m)
+        if u == goal_node:
+            break
 
-for city in G.nodes() :
-    neighboring_cities = G.neighbors(city)
-    print("The neighbor(s) of {}:".format(city))
-    for neighbor in neighboring_cities:
-        distance = G.get_edge_data(city, neighbor)['weight']
-        print("{} ({})".format(neighbor, distance))
-    print()
+        for v in Graph.neighbors(u):
+            if visited[v] == False:
+                visited[v] == True
+                c = h[v]
+                pq.put((c, v))
+
+    full_path = " -> ".join(path)
+    print(full_path)
+
+def main():
+    G = nx.Graph()
+
+    # graph_add_node(G, "cities.txt")
+    graph_add_edge(G, "edges.txt")
+    heuristic = get_heuristic("heuristics.txt")
+    goal_node = get_goal_from_heuristic(heuristic)
+
+    print("Goal Node: " + goal_node)
+
+    gbfs(G, "Magetan", goal_node, heuristic)
+    gbfs(G, "Ngawi", goal_node, heuristic)
+    gbfs(G, "Pamekasan", goal_node, heuristic)
+    gbfs(G, "Sampang", goal_node, heuristic)
+    # gbfs(G, "Sumenep", goal_node, heuristic) !!!loop
+
+if __name__ == "__main__":
+    main()
