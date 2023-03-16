@@ -245,7 +245,7 @@ def main():
                 #print(node, " + ",  hVal)
 #DRIVER CODE
     origin = "Magetan"
-    destination = "Situbondo"
+    destination = "Surabaya"
 
     if a_Star(origin, destination, int(nodes)):
         printResult(destination)
