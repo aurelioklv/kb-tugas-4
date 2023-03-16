@@ -1,0 +1,39 @@
+17 21
+Magetan Madiun 22
+Magetan Ngawi 32
+Magetan Ponogoro 34
+Ponogoro Madiun 29
+Ngawi Madiun 30
+Ngawi Bojonegoro 44
+Madiun Nganjuk 48
+Nganjuk Bojonegoro 33
+Nganjuk Jombang 40
+Bojonegoro Jombang 70
+Bojonegoro Lamongan 42
+Lamongan Gresik 14
+Jombang Surabaya 72
+Gresik Surabaya 12
+Surabaya Sidoarjo 25
+Sidoarjo Probolinggo 78
+Probolinggo Situbondo 99
+Surabaya Bangkalan 44
+Bangkalan Sampang 52
+Sampang Pamekasan 31
+Pamekasan Sumenep 54
+Magetan 162
+Surabaya 0
+Ngawi 130
+Ponogoro 128
+Madiun 126
+Bojonegoro 60
+Nganjuk 70
+Jombang 36
+Lamongan 36
+Gresik 12
+Sidoarjo 22
+Probolinggo 70
+Situbondo 146
+Bangkalan 140
+Sampang 90
+Pamekasan 104
+Sumenep 159
