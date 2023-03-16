@@ -51,7 +51,7 @@ def gbfs(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
 
         for v in Graph.neighbors(u):
             if visited[v] == False:
-                visited[v] == True
+                visited[v] = True
                 c = h[v]
                 pq.put((c, v))
 
@@ -72,7 +72,7 @@ def main():
     gbfs(G, "Ngawi", goal_node, heuristic)
     gbfs(G, "Pamekasan", goal_node, heuristic)
     gbfs(G, "Sampang", goal_node, heuristic)
-    # gbfs(G, "Sumenep", goal_node, heuristic) !!!loop
+    gbfs(G, "Sumenep", goal_node, heuristic)
 
 if __name__ == "__main__":
     main()
