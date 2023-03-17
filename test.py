@@ -56,23 +56,82 @@ def gbfs(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
                 pq.put((c, v))
 
     full_path = " -> ".join(path)
-    print(full_path)
+    # print(full_path)
+    return full_path
+
+def a_star(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
+    open_list = set([start_node])
+    closed_list = set([])
+
+    h = heuristics
+    g = {}
+    g[start_node] = 0
+    parents = {}
+    parents[start_node] = start_node
+
+    while len(open_list) > 0:
+        n = None
+
+        for v in open_list:
+            if n == None or g[v] + h[v] < g[n] + h[n]:
+                n = v
+        
+        if n == None:
+            # print("Path does not exist")
+            return None
+        
+        if n == goal_node:
+            path = []
+            while parents[n] != n:
+                path.append(n)
+                n = parents[n]
+            
+            path.append(start_node)
+            path.reverse()
+
+            full_path = " -> ".join(path)
+            # print(full_path)
+            return full_path
+        
+        for m in Graph.neighbors(n):
+            if m not in open_list and m not in closed_list:
+                open_list.add(m)
+                parents[m] = n
+                g[m] = g[n] + h[m]
+            else:
+                if g[m] > g[n] + h[m]:
+                    g[m] = g[n] + h[m]
+                    parents[m] = n
+
+                    if m in closed_list:
+                        closed_list.remove(m)
+                        open_list.add(m)
+        
+        open_list.remove(n)
+        closed_list.add(n)
+
+    # print("Path does not exist")
+    return None
+
+
 
 def main():
     G = nx.Graph()
 
+    # graph_add_node() is optional
     # graph_add_node(G, "cities.txt")
     graph_add_edge(G, "edges.txt")
+
     heuristic = get_heuristic("heuristics.txt")
     goal_node = get_goal_from_heuristic(heuristic)
 
-    print("Goal Node: " + goal_node)
+    print("Goal Node: " + goal_node + "\n")
 
-    gbfs(G, "Magetan", goal_node, heuristic)
-    gbfs(G, "Ngawi", goal_node, heuristic)
-    gbfs(G, "Pamekasan", goal_node, heuristic)
-    gbfs(G, "Sampang", goal_node, heuristic)
-    gbfs(G, "Sumenep", goal_node, heuristic)
+    start_nodes = G.nodes()
+    for start_node in start_nodes:
+        gbfs_path = gbfs(G, start_node, goal_node, heuristic)
+        a_star_path = a_star(G, start_node, goal_node, heuristic)
+        print("Start Node: {}\nBGFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
 
 if __name__ == "__main__":
     main()
