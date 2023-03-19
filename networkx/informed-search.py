@@ -1,5 +1,4 @@
 import networkx as nx
-import matplotlib.pyplot as plt
 from queue import PriorityQueue
 
 def graph_add_node(Graph: nx.Graph, filename = 'cities.txt'):
