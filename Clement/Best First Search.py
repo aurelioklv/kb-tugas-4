@@ -9,6 +9,7 @@
 import sys
 from typing_extensions import Self
 from copy import deepcopy #Help asign list value to variables without passing only the reference
+from time import perf_counter_ns #To measure function time
 
 #CLASS : MinHeap
     #https://www.geeksforgeeks.org/min-heap-in-python/
@@ -162,8 +163,8 @@ def addHeuristic(node, hVal):
     cameFrom[node].append("NULL")
 
 
-#Fungsi A*
-def a_Star(start, goal, max):
+#Fungsi bestFirstSearch
+def bestFirstSearch(start, goal, max):
 ###Variabel Penting
     #1. Closed set : Node yang sudah diexpand/didatangi dan nilai Fnya
     #2. Open set : Queue yang berisi node yang siap diperiksa dan nilai Fnya
@@ -231,9 +232,11 @@ def main():
 #DRIVER CODE
     origin = "Magetan"
     destination = "Surabaya"
-
-    if a_Star(origin, destination, int(nodes)):
+    t_start = perf_counter_ns() 
+    if bestFirstSearch(origin, destination, int(nodes)):
         printResult(destination)
+    t_end = perf_counter_ns() 
+    print("Waktu yang dibutuhkan algoritma Best First Search untuk mencari rute dari ", origin, " menuju ", destination, " adalah : \n", t_end - t_start, " ns = ", float((t_end - t_start))/1000000000, " s")
 
 #TESTING CODE
     # print("HEURISTICS/n")
