@@ -126,11 +126,16 @@ def main():
 
     print("Goal Node: " + goal_node + "\n")
 
-    start_nodes = G.nodes()
-    for start_node in start_nodes:
-        gbfs_path = gbfs(G, start_node, goal_node, heuristic)
-        a_star_path = a_star(G, start_node, goal_node, heuristic)
-        print("Start Node: {}\nGBFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
+    # start_nodes = G.nodes()
+    # for start_node in start_nodes:
+    #     gbfs_path = gbfs(G, start_node, goal_node, heuristic)
+    #     a_star_path = a_star(G, start_node, goal_node, heuristic)
+    #     print("Start Node: {}\nGBFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
+
+    start_node = "Magetan"
+    gbfs_path = gbfs(G, start_node, goal_node, heuristic)
+    a_star_path = a_star(G, start_node, goal_node, heuristic)
+    print("Start Node: {}\nGBFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
 
 if __name__ == "__main__":
     main()
