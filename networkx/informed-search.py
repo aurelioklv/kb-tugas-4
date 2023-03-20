@@ -1,5 +1,6 @@
 import networkx as nx
 from queue import PriorityQueue
+from time import perf_counter_ns
 
 def graph_add_node(Graph: nx.Graph, filename = 'cities.txt'):
     with open(filename, 'r') as file:
@@ -134,9 +135,15 @@ def main():
     #     print("Start Node: {}\nGBFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
 
     start_node = "Magetan"
+    t_start = perf_counter_ns()
     gbfs_path = gbfs(G, start_node, goal_node, heuristic)
+    t_end = perf_counter_ns()
+    gbfs_time = float((t_end - t_start))/1000000000
+    t_start = perf_counter_ns()
     a_star_path = a_star(G, start_node, goal_node, heuristic)
-    print("Start Node: {}\nGBFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
+    t_end = perf_counter_ns()
+    a_star_time = float((t_end - t_start))/1000000000
+    print("Start Node: {}\nGBFS: {} ({:.7f}s)\nA*  : {} ({:.7f}s)\n".format(start_node, gbfs_path, gbfs_time, a_star_path, a_star_time))
 
 if __name__ == "__main__":
     main()
