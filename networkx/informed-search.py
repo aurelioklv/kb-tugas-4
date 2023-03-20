@@ -93,13 +93,14 @@ def a_star(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
             return full_path
         
         for m in Graph.neighbors(n):
+            weight = int(Graph.get_edge_data(n, m)["weight"])
             if m not in open_list and m not in closed_list:
                 open_list.add(m)
                 parents[m] = n
-                g[m] = g[n] + h[m]
+                g[m] = g[n] + weight
             else:
-                if g[m] > g[n] + h[m]:
-                    g[m] = g[n] + h[m]
+                if g[m] > g[n] + weight:
+                    g[m] = g[n] + weight
                     parents[m] = n
 
                     if m in closed_list:
