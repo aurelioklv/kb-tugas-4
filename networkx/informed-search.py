@@ -2,12 +2,12 @@ import networkx as nx
 from queue import PriorityQueue
 from time import perf_counter_ns
 
-def graph_add_node(Graph: nx.Graph, filename = 'cities.txt'):
+def graph_add_node(Graph: nx.Graph, filename='cities.txt'):
     with open(filename, 'r') as file:
         for city in file:
             Graph.add_node(city.rstrip('\n'))
 
-def graph_add_edge(Graph: nx.Graph, filename = 'edges.txt'):
+def graph_add_edge(Graph: nx.Graph, filename='edges.txt'):
     with open(filename, 'r') as file:
         for row in file:
             edges_data = row.split()
@@ -18,7 +18,7 @@ def graph_add_edge(Graph: nx.Graph, filename = 'edges.txt'):
 
             Graph.add_edge(city1, city2, weight=distance)
 
-def get_heuristic(filename = 'heuristics.txt'):
+def get_heuristic(filename='heuristics.txt'):
     heuristics = {}
     with open(filename, 'r') as file:
         for row in file:
@@ -75,24 +75,24 @@ def a_star(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
         for v in open_list:
             if n == None or g[v] + h[v] < g[n] + h[n]:
                 n = v
-        
+
         if n == None:
             # print("Path does not exist")
             return None
-        
+
         if n == goal_node:
             path = []
             while parents[n] != n:
                 path.append(n)
                 n = parents[n]
-            
+
             path.append(start_node)
             path.reverse()
 
             full_path = " -> ".join(path)
             # print(full_path)
             return full_path
-        
+
         for m in Graph.neighbors(n):
             weight = int(Graph.get_edge_data(n, m)["weight"])
             if m not in open_list and m not in closed_list:
@@ -107,13 +107,12 @@ def a_star(Graph: nx.Graph, start_node, goal_node, heuristics: dict):
                     if m in closed_list:
                         closed_list.remove(m)
                         open_list.add(m)
-        
+
         open_list.remove(n)
         closed_list.add(n)
 
     # print("Path does not exist")
     return None
-
 
 
 def main():
@@ -134,16 +133,22 @@ def main():
     #     a_star_path = a_star(G, start_node, goal_node, heuristic)
     #     print("Start Node: {}\nGBFS: {}\nA*  : {}\n".format(start_node, gbfs_path, a_star_path))
 
-    start_node = "Magetan"
-    t_start = perf_counter_ns()
-    gbfs_path = gbfs(G, start_node, goal_node, heuristic)
-    t_end = perf_counter_ns()
-    gbfs_time = float((t_end - t_start))/1000000000
-    t_start = perf_counter_ns()
-    a_star_path = a_star(G, start_node, goal_node, heuristic)
-    t_end = perf_counter_ns()
-    a_star_time = float((t_end - t_start))/1000000000
-    print("Start Node: {}\nGBFS: {} ({:.7f}s)\nA*  : {} ({:.7f}s)\n".format(start_node, gbfs_path, gbfs_time, a_star_path, a_star_time))
+    while True:
+        while True:
+            start_node = str(input("Start Node?: "))
+            if G.__contains__(start_node):
+                break
+            print("Node doesn't exist\n")
+        t_start = perf_counter_ns()
+        gbfs_path = gbfs(G, start_node, goal_node, heuristic)
+        t_end = perf_counter_ns()
+        gbfs_time = float((t_end - t_start))/1000000000
+        t_start = perf_counter_ns()
+        a_star_path = a_star(G, start_node, goal_node, heuristic)
+        t_end = perf_counter_ns()
+        a_star_time = float((t_end - t_start))/1000000000
+        print("GBFS: {} ({:.7f}s)\nA*  : {} ({:.7f}s)\n".format(gbfs_path, gbfs_time, a_star_path, a_star_time))
+
 
 if __name__ == "__main__":
     main()
